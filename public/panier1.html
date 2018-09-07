@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>MotorcyclesPassion</title>
+  <link rel="stylesheet" href="stylesheets/panier1.css" />
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+  crossorigin="anonymous">
+  <meta charSet="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, shrink-to-fit=no" />
+
+</head>
+
+<body>
+
+  <main id = "app">
+
+    <div class="header">
+      <h1>Motorcycles Passion</h1>
+      <p>Welcome to the biggest bikes store</p>
+    </div>
+
+    <div class="topnav">
+     <a v-on:click="currentPage = 'Brend'">Basket</a>
+     <a v-on:click="currentPage = 'Login'">Login</a>
+     <a v-on:click="currentPage = 'Home'" style="float:right">Home</a>
+   </div>
+
+
+   <!--////////////////////////////////////////////////////////////////////Home////////////////////////////////////////////////////////////-->
+
+
+   <section v-if="currentPage==='Home'" id="Home">
+
+    <div class="row">
+      <div class="leftcolumn">
+        <div class="card">
+
+         <div class="album py-5 bg-light" id="articles">
+          <div class="container">
+
+            <div v-for="(produit, index) of produit" class="row">
+
+
+              <h5 class="card-title">{{ produit.name }}</h5>
+              <img v-bind:src=produit.src alt="Card image cap" style="width:300px;height:150px;" />
+              <p class="card-text">{{ produit.description }}</p>
+
+
+              <button v-on:click="ajouterPanier(produit, index)" type="button" class="btn btn-success">Buy</button> 
+              <strong class="text-muted">{{ produit.prix }} €</strong>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rightcolumn">
+      <div class="card">
+        <h2>About Us</h2>
+        <div class="fakeimg" style="height:100px;"><img src="https://wallpaper.wiki/wp-content/uploads/2017/05/Motorcycle-Wallpapers-HD-For-Desktop.jpg" style="width:300px;height:150px;"></div>
+        <br><br><br><br><br>
+        <p>We are the best Motorcycles seller since 1945.
+          All our motorbikes have 1 year guarantee for the engine and the frame
+          For more question Contact us by phone or mail (at the end of the website..)
+        All our Motorcycles are checked by profesional</p>
+      </div>
+      <div class="card">
+
+        <h3>Last Sale</h3>
+        <div class="fakeimg"><p> <img src="https://i.pinimg.com/originals/7f/d2/67/7fd267bfc2997e5bd2bd89ebafa6b711.jpg" style="width:300px;height:150px;"></p></div>
+        <div class="fakeimg"><p><img src="https://cdn.designsmaz.com/wp-content/uploads/2016/03/wpid-bmw-s-1000-rr-superbike-wallpaper-1024x640.jpg" style="width:300px;height:150px;"></p></div>
+        <div class="fakeimg"><p><img src="http://coolwallpapers.eu/wp-content/uploads/Bikes/Moto1/Moto%20Bikes%20HD%20Wallpapers%2061-730x412.jpg" style="width:300px;height:150px;"></p></div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
+<!--////////////////////////////////////////////////////////////////////////Basket/////////////////////////////////////////////////////////////////////-->
+
+<section v-else-if="currentPage==='Brend'" id="Brend">
+
+  <div class="card">
+    <li v-for="produit in panier" v-if="produit.stock >= 1">
+      
+     <p>{{ produit.name }} {{ produit.stock }} {{ produit.prix }}  
+     </li>
+     <div>
+     </div>
+     <div class="card">
+      <h5>TOTAL : {{ panier.total }} €</h5>
+    </div>
+  </div>
+
+  
+  <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+</section>
+
+<!--///////////////////////////////////////////////////////////////////////Section Login///////////////////////////////////////////////////////////////////-->
+
+<section v-else-if="currentPage === 'Login'" id="Login">
+  <link rel="stylesheet" href="stylesheets/Stylelog.css" />
+
+
+
+  <div id="app">
+    <div id="login">
+      <div id="description">
+        <h1>Login</h1>
+        <p>Please login to your account to purchase, if you don't have any account please register</p>
+      </div>
+      <div id="form">
+        <form @submit.prevent="doLogin">
+          <label for="email">Email</label>
+          <input type="text" id="email" v-model="email" placeholder="me@example.com" autocomplete="off">
+
+          <label for="password">Password</label>&nbsp;
+          <i class="fas" :class="[passwordIcon]" @click="hidePassword = !hidePassword"></i>
+          <input :type="passwordType" id="password" v-model="password" placeholder="**********">
+
+          <button type="submit" class="btn btn-success">Log in</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <br><br><br>
+</section>
+
+
+
+</main>
+
+
+
+
+
+<div class="footer">
+  <h2>Contact Us</h2>
+  <p>Phone : +33 7 83 31 50 76</p>
+  <p>E-mail : Motorcyclespassion@esiea.com</p>
+  <p>Address: 74 avenue Maurice Thorez, Ivry Sur Seine, 94200</p> 
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+  const app = new Vue({
+    el: '#app',
+    data: {
+      currentPage: 'Home',
+      totalPanier: 0,
+      produit: [{
+        name:'Ducati Monster 821',
+        description: 'Design and electronics borrowed from the 1200, optimized part-cycle, revised driving position: the Ducati Monster 821 is the most universal Monster ever created.',
+        prix: 12000,
+        src: 'stylesheets/Monster-821.png',
+        stock:10,
+      },{
+        name:'Yamaha MT09',
+        description:'This revolutionary bike has become a Hyper Naked even sharper and at the forefront of technology. This MT-09 is designed to inspire the current generation of sensation-hungry drivers like no other in its class. ',
+        prix: 8000,
+        src: 'stylesheets/Yamaha.png',
+        stock:10,
+      },{
+        name: 'BMW RR1000',
+        description: 'The RR has, from the beginning, been at the origin of a revolution in the category of hypersportives. In terms of performance, it is still a pioneering model at the moment. Now, the S 1000 RR comes with DTC Dynamic Traction Control',
+        prix: 11000,
+        src: 'stylesheets/bmw-s1000rr.png',
+        stock: 5,
+      },{
+        name:'Kawasaki Z800',
+        description:'Kawasaki Z800e, Perfect for new driver and young driver, Race tires and sport exhaust, 5000km.',
+        prix: 9500,
+        src: 'stylesheets/z800.png',
+        stock:6,
+      }],         
+
+      panier: [{
+        name: 'Ducati',
+        prix: 12000,
+        stock: 0,
+        soustotal: 0,
+      },{
+        name: 'Yamaha',
+        prix: 8000,
+        stock: 0,
+        soustotal: 0,
+      },{
+        name: 'BMW',
+        prix: 11000,
+        stock: 0,
+        soustotal: 0,
+      },{
+        name: 'Kawasaki',
+        prix: 95000,
+        stock: 0,
+        soustotal: 0,
+      }],
+    },
+
+    methods: {
+      ajouterPanier: function (produit, index) {
+        
+        if(produit.stock > 0) {
+          this.panier[index].stock = this.panier[index].stock + 1,
+          produit.stock = produit.stock - 1,
+          this.panier[index].soustotal = produit.prix * this.panier[index].stock,
+          this.panier.total = this.panier[0].soustotal + this.panier[1].soustotal + this.panier[2].soustotal + this.panier[3].soustotal 
+        } else {
+          alert("Produit épuisé");
+
+        }
+        console.log("produit : " + produit.stock, "panier : " + this.panier[index].stock, "prix : " + this.panier[index].soustotal, "total : " + this.panier.total);
+      }
+    }
+    
+  })
+</script>
+
+
+</body>
+</html>
