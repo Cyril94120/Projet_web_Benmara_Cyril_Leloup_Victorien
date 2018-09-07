@@ -1,10 +1,12 @@
 {
   "name": "projet",
   "version": "1.0.0",
-  "description": "",
+  "description": "Projet web 4a",
+  "repository" : "https://github.com/Cyril94120/Projet_web_Benmara_Cyril_Leloup_Victorien",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start" : "node app.js"
   },
   "author": "",
   "license": "ISC",
